@@ -1,12 +1,12 @@
+import Game from "./components/Game"
 
 
 const App = () => {
   return (
-    <div className="text-center">
-      <div className="flex flex-row justify-center">
-        <h1>Hello World</h1>
+    <div className="bg-veryDark min-h-screen w-full flex flex-col items-center">
+      <h1 className="text-white text-5xl mt-10">The Simon Game</h1>
 
-      </div>
+      <Game />
     </div>
   )
 }

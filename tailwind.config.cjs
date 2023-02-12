@@ -9,7 +9,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        
+        "veryDark": '#111016',
+        "greenCard": '#00bdaa',
+        "redCard": '#ff2e63',
+        "yellowCard": '#f9ed69',
+        "blueCard": '#3490de',
       }
     },
     screens: {
