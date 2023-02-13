@@ -15,19 +15,21 @@ const Game = () => {
         score: 0,
     });
 
-    const [origMoves, setOrigMoves] = useState<string[]>([]);
 
     let moves:string[] = [];
     let turnCount = 1;
     const startGame = () => {
         setGame({...game, gameStarted: true});
-        shiningTurn();
+        movesFilling();
+        setTimeout(() => shining(moves), 1000);
         console.log("shining done");
         console.log(moves);
-        setOrigMoves(origMoves => [...origMoves, ...moves]);
+        console.log(moves);
+        //checking time
+
     };
 
-    const shiningTurn = () => {
+    const movesFilling = () => {
         const fillMoves = (moves:string[], turnCount:number) => {
             while(moves.length < turnCount) {
                 console.log(moves.length);
@@ -39,22 +41,37 @@ const Game = () => {
         }
         fillMoves(moves, turnCount);
         console.log("moves were filled");
-        console.log(moves);
-
-        const shining = (moves:string[]) => {
-            moves.map((move:string) => {
-                let shine:Boolean = true;
-                shine && document.getElementById(`${move}`)?.classList.add("opacity-50");
-                setTimeout(() => {shine = false; document.getElementById(`${move}`)?.classList.remove("opacity-50")}, 500);
-            })
-        }
-        shining(moves);
 
     }
 
+    const shining = (moves:string[]) => {
+        moves.map((move:string) => {
+            let shine:Boolean = true;
+            shine && document.getElementById(`${move}`)?.classList.add("opacity-60");
+            setTimeout(() => {shine = false; document.getElementById(`${move}`)?.classList.remove("opacity-60")}, 500);
+        })
+    }
+    shining(moves);
+
+
     const checkingTime = (id:string) => {
-        console.log(id);
-        console.log(origMoves);
+        let checked = turnCount;
+        while(checked != 0) {
+            if(id === moves[-1]) {
+                console.log("you're right for that push");
+                checked -= 1;
+                if (checked === 0) {
+                    break;
+                }
+            } else {
+                console.log("you lose");
+                setGame({...game, gameStarted: false});
+                break;
+            }
+        }
+        console.log("checking ends");
+        if(checked != 0) {setTimeout(() => movesFilling(), 1000);
+        shining(moves);}
     }
 
     const stopGame = () => {
