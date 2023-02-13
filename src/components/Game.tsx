@@ -15,17 +15,19 @@ const Game = () => {
         score: 0,
     });
 
+    const [origMoves, setOrigMoves] = useState<string[]>([]);
 
     let moves:string[] = [];
     let turnCount = 1;
     const startGame = () => {
         setGame({...game, gameStarted: true});
-        cpuTurn();
-        
-        
+        shiningTurn();
+        console.log("shining done");
+        console.log(moves);
+        setOrigMoves(origMoves => [...origMoves, ...moves]);
     };
 
-    const cpuTurn = () => {
+    const shiningTurn = () => {
         const fillMoves = (moves:string[], turnCount:number) => {
             while(moves.length < turnCount) {
                 console.log(moves.length);
@@ -35,8 +37,9 @@ const Game = () => {
                 console.log(turnCount);
              }
         }
-        fillMoves(moves, turnCount)
-        console.log(moves)
+        fillMoves(moves, turnCount);
+        console.log("moves were filled");
+        console.log(moves);
 
         const shining = (moves:string[]) => {
             moves.map((move:string) => {
@@ -50,7 +53,8 @@ const Game = () => {
     }
 
     const checkingTime = (id:string) => {
-
+        console.log(id);
+        console.log(origMoves);
     }
 
     const stopGame = () => {
@@ -60,19 +64,19 @@ const Game = () => {
 
   return (
     <div className='mt-12 flex flex-col items-center'>
-        
+        {/* Game Block */}
         <div className="flex min-w-sm flex-col columns-2 gap-12">
             {/* Score Header */}
             <h2 className='text-white text-3xl self-center '>Your score is: </h2>
             {/* Game Plate */}
             <div className="flex flex-col gap-5">
                 <div className="flex flex-row gap-5">
-                    <div id='green' className={`${button.green}`} ></div>
-                    <div id='red' className={`${button.red}`}></div>
+                    <div id='green' className={`${button.green}`} onClick={() => checkingTime("green")}></div>
+                    <div id='red' className={`${button.red}`} onClick={() => checkingTime("red")}></div>
                 </div>
                 <div className="flex flex-row gap-5">
-                    <div id='yellow' className={`${button.yellow}`}></div>
-                    <div id='blue' className={`${button.blue}`}></div>
+                    <div id='yellow' className={`${button.yellow}`} onClick={() => checkingTime("yellow")}></div>
+                    <div id='blue' className={`${button.blue}`} onClick={() => checkingTime("blue")}></div>
                 </div>
             </div>
             {/* Start Button */}
@@ -80,7 +84,7 @@ const Game = () => {
                 {game.gameStarted ? "STOP" : "START"}
             </button>
         </div>
-
+        {/* Game Block */}
     </div>
   )
 }
