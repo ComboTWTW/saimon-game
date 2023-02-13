@@ -5,19 +5,21 @@ const Game = () => {
     const colors:string[] = ["green","red","yellow","blue"];
 
     type game = {
-        playerTurn: boolean;
+        gameStarted: boolean;
         score: number;
     }
 
     const [game, setGame] = useState<game>({
-        playerTurn: false,
+        gameStarted: false,
         score: 0,
     });
 
+
+    let moves:string[] = [];
+    let turnCount = 1;
     const startGame = () => {
-        let moves:string[] = [];
-        let turnCount = 1;
-        setGame({...game, playerTurn: true});
+        setGame({...game, gameStarted: true});
+
 
         const fillMoves = (moves:string[], turnCount:number) => {
             while(moves.length < turnCount) {
@@ -35,17 +37,19 @@ const Game = () => {
             moves.map((move:string) => {
                 let shine:Boolean = true;
                 shine && document.getElementById(`${move}`)?.classList.add("opacity-50");
-                setTimeout(() => {shine = false; shine && document.getElementById(`${move}`)?.classList.remove("opacity-50")}, 100);
+                setTimeout(() => {shine = false; document.getElementById(`${move}`)?.classList.remove("opacity-50")}, 500);
             })
         }
-
         shining(moves);
+
+        
         
     };
 
     const stopGame = () => {
-        setGame({...game, playerTurn: false});
+        setGame({...game, gameStarted: false});
     }
+
 
   return (
     <div className='mt-12 flex flex-col items-center'>
@@ -65,8 +69,8 @@ const Game = () => {
                 </div>
             </div>
             {/* Start Button */}
-            <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.playerTurn ? stopGame : startGame}>
-                {game.playerTurn ? "STOP" : "START"}
+            <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? stopGame : startGame}>
+                {game.gameStarted ? "STOP" : "START"}
             </button>
         </div>
 
