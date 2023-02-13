@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import {button} from '../constants/style'
 
 const Game = () => {
 
@@ -19,8 +20,12 @@ const Game = () => {
     let turnCount = 1;
     const startGame = () => {
         setGame({...game, gameStarted: true});
+        cpuTurn();
+        
+        
+    };
 
-
+    const cpuTurn = () => {
         const fillMoves = (moves:string[], turnCount:number) => {
             while(moves.length < turnCount) {
                 console.log(moves.length);
@@ -42,9 +47,11 @@ const Game = () => {
         }
         shining(moves);
 
-        
-        
-    };
+    }
+
+    const checkingTime = (id:string) => {
+
+    }
 
     const stopGame = () => {
         setGame({...game, gameStarted: false});
@@ -60,12 +67,12 @@ const Game = () => {
             {/* Game Plate */}
             <div className="flex flex-col gap-5">
                 <div className="flex flex-row gap-5">
-                    <div id='green' className={` bg-greenCard w-32 h-32 cursor-pointer active:opacity-50`} ></div>
-                    <div id='red' className={` bg-redCard w-32 h-32 cursor-pointer active:opacity-50`}></div>
+                    <div id='green' className={`${button.green}`} ></div>
+                    <div id='red' className={`${button.red}`}></div>
                 </div>
                 <div className="flex flex-row gap-5">
-                    <div id='yellow' className={` bg-yellowCard w-32 h-32 cursor-pointer active:opacity-50`}></div>
-                    <div id='blue' className={` bg-blueCard w-32 h-32 cursor-pointer active:opacity-50`}></div>
+                    <div id='yellow' className={`${button.yellow}`}></div>
+                    <div id='blue' className={`${button.blue}`}></div>
                 </div>
             </div>
             {/* Start Button */}
