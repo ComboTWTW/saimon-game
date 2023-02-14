@@ -39,26 +39,25 @@ const Game = () => {
     const shiningTurn = (origMoves:string[]) => {
         for (let i = 0; i < origMoves.length; i++) {
             setTimeout(function timer() {
-                document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50");
-                setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 500);
+                setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 500);
+                setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 1000);
             }, i * 1000);
         }
     }
 
-  
-
+    let checked = origMoves.length;
     const checkingTime = (id:string) => {
-        let gameLost = false;
-        origMoves.map((move) => {
-            if(id === move) {
-                console.log("That push was right!");
-            } else {
-                console.log("You lose!");
-                stopGame();
-                gameLost = true;
+        if(id === origMoves[origMoves.length - checked]) {
+            console.log("That push was right");
+            checked -= 1;
+            if(checked === 0) {
+                startGame();
             }
-        })
-        !gameLost && startGame();
+        } else {
+            console.log("You lose");
+            setOrigMoves([]);
+            stopGame();
+        }
     }
 
     const stopGame = () => {
