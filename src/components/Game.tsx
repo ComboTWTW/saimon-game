@@ -19,38 +19,37 @@ const Game = () => {
         score: 0,
     });
 
-    const moves:string[] = [];
+    const [origMoves, setOrigMoves] = useState<string[]>([]);
 
     const startGame = () => {
         setGame({...game, gameStarted: true});
-
-        console.log("Game started. Moves: " + moves);
-        fillMoves(moves);
-        console.log("moves were filled: " + moves);
-        shiningTurn(moves);
+        console.log("Game started. Moves: " + origMoves);
+        fillMoves(origMoves);
+        console.log("moves were filled: " + origMoves);
+        shiningTurn(origMoves);
         
     };
 
-    const fillMoves = (moves:string[]) => {
-        moves.push(colors[Math.floor(Math.random()*colors.length)]);
-        moves.push(colors[Math.floor(Math.random()*colors.length)]);
+    const fillMoves = (origMoves:string[]) => {
+        origMoves.push(colors[Math.floor(Math.random()*colors.length)]);
+        
     }
 
 
-    const shiningTurn = (moves:string[]) => {
-        for (let i = 0; i < moves.length; i++) {
+    const shiningTurn = (origMoves:string[]) => {
+        for (let i = 0; i < origMoves.length; i++) {
             setTimeout(function timer() {
-                document.getElementById(`${moves[i]}`)?.classList.add("opacity-50");
-                setTimeout(() => {document.getElementById(`${moves[i]}`)?.classList.remove("opacity-50")}, 500);
+                document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50");
+                setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 500);
             }, i * 1000);
-             }
+        }
     }
 
   
 
     const checkingTime = (id:string) => {
         let gameLost = false;
-        moves.map((move) => {
+        origMoves.map((move) => {
             if(id === move) {
                 console.log("That push was right!");
             } else {
