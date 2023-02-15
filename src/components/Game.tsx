@@ -68,6 +68,7 @@ const Game = () => {
     }
 
     const stopGame = () => {
+        setShine(false);
         setOrigMoves([]);
         score > record && setRecord(score);
         setScore(0);
@@ -86,14 +87,26 @@ const Game = () => {
             </div>
             {/* Game Plate */}
             <div className="flex flex-col gap-5">
+                { !shine ? 
                 <div className="flex flex-row gap-5">
-                    <div id='green' className={`${button.green}`} onClick={() => checkingTime("green")}></div>
-                    <div id='red' className={`${button.red}`} onClick={() => checkingTime("red")}></div>
-                </div>
+                    <div id='green' className={`${button.green} cursor-pointer`} onClick={() => checkingTime("green")}></div>
+                    <div id='red' className={`${button.red} cursor-pointer`} onClick={() => checkingTime("red")}></div>
+                </div> :
                 <div className="flex flex-row gap-5">
-                    <div id='yellow' className={`${button.yellow}`} onClick={() => checkingTime("yellow")}></div>
-                    <div id='blue' className={`${button.blue}`} onClick={() => checkingTime("blue")}></div>
+                    <div id='green' className={`${button.green} cursor-default`}></div>
+                    <div id='red' className={`${button.red} cursor-default`}></div>
                 </div>
+                }
+                { !shine ? 
+                <div className="flex flex-row gap-5">
+                    <div id='yellow' className={`${button.yellow} cursor-pointer`} onClick={() => checkingTime("yellow")}></div>
+                    <div id='blue' className={`${button.blue} cursor-pointer`} onClick={() => checkingTime("blue")}></div>
+                </div> :
+                <div className="flex flex-row gap-5">
+                    <div id='yellow' className={`${button.yellow} cursor-default`}></div>
+                    <div id='blue' className={`${button.blue} cursor-default`}></div>
+                </div>
+                }
             </div>
             {/* Start Button */}
             <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? stopGame : startGame}>
