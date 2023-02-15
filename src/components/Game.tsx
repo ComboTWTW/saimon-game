@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {button} from '../constants/style'
 
 const Game = () => {
@@ -16,6 +16,7 @@ const Game = () => {
     const [score, setScore] = useState<number>(0);
     const [record, setRecord] = useState<number>(0);
     const [origMoves, setOrigMoves] = useState<string[]>([]);
+    const [shine, setShine] = useState<boolean>(false);
 
     const startGame = () => {
         setGame({...game, gameStarted: true});
@@ -31,16 +32,24 @@ const Game = () => {
         
     }
 
+    async function shiningTurn(origMoves:string[]){
+        setShine(true);
+        let promise = new Promise((resolve, reject) => {
+            for (let i = 0; i < origMoves.length; i++) {
+                setTimeout(function timer() {
+                    console.log(i);
+                    console.log(shine);
+                    setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 500);
+                    setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 750);
+                    i + 1 === origMoves.length && resolve("");
+                }, i * 850)
+            }
+        });
 
-    const shiningTurn = (origMoves:string[]) => {
-        let shine = true;
-        for (let i = 0; i < origMoves.length; i++) {
-            setTimeout(function timer() {
-                setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 500);
-                setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 750);
-            }, i * 850);
-        }
-        shine = false;
+        await promise;
+        setShine(false);
+        console.log(shine);
+        console.log("shining is done");
     }
 
     let checked = origMoves.length;
