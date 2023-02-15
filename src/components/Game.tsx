@@ -14,6 +14,7 @@ const Game = () => {
     });
 
     const [score, setScore] = useState<number>(0);
+    const [record, setRecord] = useState<number>(0);
     const [origMoves, setOrigMoves] = useState<string[]>([]);
 
     const startGame = () => {
@@ -36,8 +37,8 @@ const Game = () => {
         for (let i = 0; i < origMoves.length; i++) {
             setTimeout(function timer() {
                 setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 500);
-                setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 1000);
-            }, i * 1000);
+                setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 750);
+            }, i * 850);
         }
         shine = false;
     }
@@ -59,6 +60,7 @@ const Game = () => {
 
     const stopGame = () => {
         setOrigMoves([]);
+        score > record && setRecord(score);
         setScore(0);
         setGame({...game, gameStarted: false});
     }
@@ -68,8 +70,11 @@ const Game = () => {
     <div className='mt-12 flex flex-col items-center'>
         {/* Game Block */}
         <div className="flex min-w-sm flex-col columns-2 gap-12">
-            {/* Score Header */}
-            <h2 className='text-white text-3xl self-center '>Your score is: {score}</h2>
+            {/* Score and Record Header */}
+            <div className="flex flex-row justify-between">
+                <h2 className='text-white text-3xl self-center '>Score: {score}</h2>
+                <h2 className='text-white text-3xl self-center '>Record: {record}</h2>
+            </div>
             {/* Game Plate */}
             <div className="flex flex-col gap-5">
                 <div className="flex flex-row gap-5">
