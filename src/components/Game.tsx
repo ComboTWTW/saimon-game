@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import {button} from '../constants/style'
+import DefaultPlates from './DefaultPlates';
+import ShiningPlates from './ShiningPlates';
 
 const Game = () => {
 
@@ -88,24 +89,12 @@ const Game = () => {
             {/* Game Plate */}
             <div className="flex flex-col gap-5">
                 { !shine ? 
-                <div className="flex flex-row gap-5">
-                    <div id='green' className={`${button.green} cursor-pointer`} onClick={() => checkingTime("green")}></div>
-                    <div id='red' className={`${button.red} cursor-pointer`} onClick={() => checkingTime("red")}></div>
-                </div> :
-                <div className="flex flex-row gap-5">
-                    <div id='green' className={`${button.green} cursor-default`}></div>
-                    <div id='red' className={`${button.red} cursor-default`}></div>
-                </div>
+                <DefaultPlates id={["green", "red"]} func={checkingTime}/> :
+                <ShiningPlates id={["green", "red"]}/>
                 }
                 { !shine ? 
-                <div className="flex flex-row gap-5">
-                    <div id='yellow' className={`${button.yellow} cursor-pointer`} onClick={() => checkingTime("yellow")}></div>
-                    <div id='blue' className={`${button.blue} cursor-pointer`} onClick={() => checkingTime("blue")}></div>
-                </div> :
-                <div className="flex flex-row gap-5">
-                    <div id='yellow' className={`${button.yellow} cursor-default`}></div>
-                    <div id='blue' className={`${button.blue} cursor-default`}></div>
-                </div>
+                <DefaultPlates id={["yellow", "blue"]} func={checkingTime}/> :
+                <ShiningPlates id={["yellow", "blue"]}/>
                 }
             </div>
             {/* Start Button */}

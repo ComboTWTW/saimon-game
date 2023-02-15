@@ -1,6 +1,6 @@
 export const button = {
-    green: "bg-greenCard w-32 h-32 active:opacity-50",
-    red: "bg-redCard w-32 h-32 active:opacity-50", 
-    yellow: "bg-yellowCard w-32 h-32 active:opacity-50", 
-    blue: "bg-blueCard w-32 h-32 active:opacity-50",
+    green: " w-32 h-32 active:opacity-50",
+    red: " w-32 h-32 active:opacity-50", 
+    yellow: " w-32 h-32 active:opacity-50", 
+    blue: " w-32 h-32 active:opacity-50",
 }
