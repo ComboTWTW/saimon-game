@@ -89,11 +89,11 @@ const Game = () => {
             {/* Game Plate */}
             <div className="flex flex-col gap-5">
                 { !shine ? 
-                <DefaultPlates id={["green", "red"]} func={checkingTime}/> :
+                <DefaultPlates id={["green", "red"]} func={checkingTime} gameStarted={game.gameStarted}/> :
                 <ShiningPlates id={["green", "red"]}/>
                 }
                 { !shine ? 
-                <DefaultPlates id={["yellow", "blue"]} func={checkingTime}/> :
+                <DefaultPlates id={["yellow", "blue"]} func={checkingTime} gameStarted={game.gameStarted}/> :
                 <ShiningPlates id={["yellow", "blue"]}/>
                 }
             </div>
