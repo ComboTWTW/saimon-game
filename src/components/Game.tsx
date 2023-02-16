@@ -64,16 +64,16 @@ const Game = () => {
             }
         } else {
             console.log("You lose");
-            stopGame();
+            stopGame(true);
         }
     }
 
-    const stopGame = () => {
+    const stopGame = (lose:boolean):void => {
         setShine(false);
         setOrigMoves([]);
         score > record && setRecord(score);
         setScore(0);
-        setGame({...game, gameStarted: false});
+        lose ? setTimeout(() => setGame({...game, gameStarted: false}), 500) : setGame({...game, gameStarted: false});
     }
 
 
@@ -110,7 +110,7 @@ const Game = () => {
                 }
             </div>
             {/* Start Button */}
-            <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? stopGame : startGame}>
+            <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? () => stopGame(false) : startGame}>
                 {game.gameStarted ? "STOP" : "START"}
             </button>
         </div>
