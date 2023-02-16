@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { button } from '../constants/style'
+import PlateInactive from './PlateInactive';
 
 const Game = () => {
 
@@ -89,6 +90,7 @@ const Game = () => {
                 <h2 className='text-white text-3xl self-center '>Record: {record}</h2>
             </div>
             {/* Game Plate */}
+            {!game.gameStarted ? <PlateInactive /> : 
             <div className="flex flex-col gap-5">
                 { !shine ? 
                 <div className="flex flex-row gap-5">
@@ -111,6 +113,7 @@ const Game = () => {
                 </div>
                 }
             </div>
+            }
             {/* Start Button */}
             <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? () => stopGame(false) : startGame}>
                 {game.gameStarted ? "STOP" : "START"}
