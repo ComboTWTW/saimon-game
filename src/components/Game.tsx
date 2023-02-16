@@ -57,11 +57,11 @@ const Game = () => {
         let promise = new Promise((resolve, reject) => {
             for (let i = 0; i < origMoves.length; i++) {
                 setTimeout(function timer() {
-                    setTimeout(() => playAudio(origMoves[i]), 500);
-                    setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 500);
-                    setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 750);
+                    setTimeout(() => playAudio(origMoves[i]), 700);
+                    setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 700);
+                    setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 900);
                     setTimeout(() => i + 1 === origMoves.length && resolve(""), 1000);
-                }, i * 850)
+                }, i * 550)
             }
         });
 
@@ -95,7 +95,7 @@ const Game = () => {
         setOrigMoves([]);
         score > record && setRecord(score);
         setScore(0);
-        lose ? setTimeout(() => setGame({...game, gameStarted: false}), 500) : setGame({...game, gameStarted: false});
+        lose ? setTimeout(() => setGame({...game, gameStarted: false}), 250) : setGame({...game, gameStarted: false});
     }
 
 
@@ -111,8 +111,8 @@ const Game = () => {
             : <PlateActive shine={shine} checkingTime={checkingTime}/>
             }
             {/* Start Button */}
-            <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? () => stopGame(false) : startGame}>
-                {game.gameStarted ? "STOP" : "START"}
+            <button disabled={game.gameStarted} className={`bg-white w-[70%] self-center text-black text-3xl tracking-widest font-semibold py-3 rounded-[10px] active:bg-white active:text-cardDark ${game.gameStarted && `opacity-25 active:bg-white active:text-black focus:outline-none`}`} onClick={game.gameStarted ? () => stopGame(false) : startGame}>
+                START
             </button>
         </div>
         {/* Game Block End*/}
