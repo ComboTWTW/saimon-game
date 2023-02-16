@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import DefaultPlates from './DefaultPlates';
-import ShiningPlates from './ShiningPlates';
+import { button } from '../constants/style'
 
 const Game = () => {
 
@@ -42,7 +41,8 @@ const Game = () => {
                     console.log(shine);
                     setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 500);
                     setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 750);
-                    i + 1 === origMoves.length && resolve("");
+                    setTimeout(() => i + 1 === origMoves.length && resolve(""), 1000);
+                   
                 }, i * 850)
             }
         });
@@ -89,12 +89,24 @@ const Game = () => {
             {/* Game Plate */}
             <div className="flex flex-col gap-5">
                 { !shine ? 
-                <DefaultPlates id={["green", "red"]} func={checkingTime} gameStarted={game.gameStarted}/> :
-                <ShiningPlates id={["green", "red"]}/>
+                <div className="flex flex-row gap-5">
+                    <div id={`green`} className={`${button.red} bg-greenCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`green`)}></div>
+                    <div id={`red`} className={`${button.red} bg-redCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`red`)}></div>
+                </div> :
+                <div className="flex flex-row gap-5">
+                    <div id={`green`} className={`${button.green} bg-greenCard cursor-default`}></div>
+                    <div id={`red`} className={`${button.red} bg-redCard cursor-default`}></div>
+                </div>
                 }
                 { !shine ? 
-                <DefaultPlates id={["yellow", "blue"]} func={checkingTime} gameStarted={game.gameStarted}/> :
-                <ShiningPlates id={["yellow", "blue"]}/>
+                <div className="flex flex-row gap-5">
+                    <div id={`yellow`} className={`${button.red} bg-yellowCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`yellow`)}></div>
+                    <div id={`blue`} className={`${button.red} bg-blueCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`blue`)}></div>
+                </div> :
+                <div className="flex flex-row gap-5">
+                    <div id={`yellow`} className={`${button.green} bg-yellowCard cursor-default`}></div>
+                    <div id={`blue`} className={`${button.red} bg-blueCard cursor-default`}></div>
+                </div>
                 }
             </div>
             {/* Start Button */}
