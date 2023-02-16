@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { button } from '../constants/style'
 import PlateActive from './PlateActive';
 import PlateInactive from './PlateInactive';
+import Stats from './Stats';
 
 const Game = () => {
 
@@ -86,17 +87,12 @@ const Game = () => {
         {/* Game Block */}
         <div className="flex min-w-sm flex-col columns-2 gap-12">
             {/* Score and Record Header */}
-            <div className="flex flex-row justify-between">
-                <h2 className='text-white text-3xl self-center '>Score: {score}</h2>
-                <h2 className='text-white text-3xl self-center '>Record: {record}</h2>
-            </div>
+            <Stats score={score} record={record}/>
             {/* Game Plate */}
-
             {!game.gameStarted 
             ? <PlateInactive /> 
             : <PlateActive shine={shine} checkingTime={checkingTime}/>
             }
-            
             {/* Start Button */}
             <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? () => stopGame(false) : startGame}>
                 {game.gameStarted ? "STOP" : "START"}
