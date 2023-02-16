@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { button } from '../constants/style'
+import PlateActive from './PlateActive';
 import PlateInactive from './PlateInactive';
 
 const Game = () => {
@@ -90,30 +91,12 @@ const Game = () => {
                 <h2 className='text-white text-3xl self-center '>Record: {record}</h2>
             </div>
             {/* Game Plate */}
-            {!game.gameStarted ? <PlateInactive /> : 
-            <div className="flex flex-col gap-5">
-                { !shine ? 
-                <div className="flex flex-row gap-5">
-                    <div id={`green`} className={`${button.red} bg-greenCard cursor-pointer`} onClick={() => checkingTime(`green`)}></div>
-                    <div id={`red`} className={`${button.red} bg-redCard cursor-pointer`} onClick={() => checkingTime(`red`)}></div>
-                </div> :
-                <div className="flex flex-row gap-5">
-                    <div id={`green`} className={`${button.green} bg-greenCard cursor-default`}></div>
-                    <div id={`red`} className={`${button.red} bg-redCard cursor-default`}></div>
-                </div>
-                }
-                { !shine ? 
-                <div className="flex flex-row gap-5">
-                    <div id={`yellow`} className={`${button.red} bg-yellowCard cursor-pointer`} onClick={() => checkingTime(`yellow`)}></div>
-                    <div id={`blue`} className={`${button.red} bg-blueCard cursor-pointer`} onClick={() => checkingTime(`blue`)}></div>
-                </div> :
-                <div className="flex flex-row gap-5">
-                    <div id={`yellow`} className={`${button.green} bg-yellowCard cursor-default`}></div>
-                    <div id={`blue`} className={`${button.red} bg-blueCard cursor-default`}></div>
-                </div>
-                }
-            </div>
+
+            {!game.gameStarted 
+            ? <PlateInactive /> 
+            : <PlateActive shine={shine} checkingTime={checkingTime}/>
             }
+            
             {/* Start Button */}
             <button className='bg-cardDark w-[70%] self-center text-white text-3xl tracking-widest py-3 rounded-[10px] active:bg-white active:text-cardDark' onClick={game.gameStarted ? () => stopGame(false) : startGame}>
                 {game.gameStarted ? "STOP" : "START"}
