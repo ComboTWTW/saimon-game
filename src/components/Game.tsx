@@ -55,6 +55,7 @@ const Game = () => {
 
     let checked = origMoves.length;
     const checkingTime = (id:string) => {
+        if(!shine){
         if(id === origMoves[origMoves.length - checked]) {
             console.log("That push was right");
             checked -= 1;
@@ -66,6 +67,7 @@ const Game = () => {
             console.log("You lose");
             stopGame(true);
         }
+    }
     }
 
     const stopGame = (lose:boolean):void => {
@@ -90,8 +92,8 @@ const Game = () => {
             <div className="flex flex-col gap-5">
                 { !shine ? 
                 <div className="flex flex-row gap-5">
-                    <div id={`green`} className={`${button.red} bg-greenCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`green`)}></div>
-                    <div id={`red`} className={`${button.red} bg-redCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`red`)}></div>
+                    <div id={`green`} className={`${button.red} bg-greenCard cursor-pointer`} onClick={() => checkingTime(`green`)}></div>
+                    <div id={`red`} className={`${button.red} bg-redCard cursor-pointer`} onClick={() => checkingTime(`red`)}></div>
                 </div> :
                 <div className="flex flex-row gap-5">
                     <div id={`green`} className={`${button.green} bg-greenCard cursor-default`}></div>
@@ -100,8 +102,8 @@ const Game = () => {
                 }
                 { !shine ? 
                 <div className="flex flex-row gap-5">
-                    <div id={`yellow`} className={`${button.red} bg-yellowCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`yellow`)}></div>
-                    <div id={`blue`} className={`${button.red} bg-blueCard cursor-pointer ${!game.gameStarted && `opacity-100 z-100`}`} onClick={() => checkingTime(`blue`)}></div>
+                    <div id={`yellow`} className={`${button.red} bg-yellowCard cursor-pointer`} onClick={() => checkingTime(`yellow`)}></div>
+                    <div id={`blue`} className={`${button.red} bg-blueCard cursor-pointer`} onClick={() => checkingTime(`blue`)}></div>
                 </div> :
                 <div className="flex flex-row gap-5">
                     <div id={`yellow`} className={`${button.green} bg-yellowCard cursor-default`}></div>
