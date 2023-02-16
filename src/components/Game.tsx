@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { button } from '../constants/style'
 import PlateActive from './PlateActive';
 import PlateInactive from './PlateInactive';
 import Stats from './Stats';
+import { blueSound, greenSound, yellowSound, redSound, errorSound } from '../assets/index'
 
 const Game = () => {
 
@@ -35,17 +35,32 @@ const Game = () => {
         
     }
 
+    const playAudio = (id: string) => {
+        switch(id) {
+            case 'green':
+                new Audio(greenSound).play();
+                break
+            case 'red':
+                new Audio(redSound).play();
+                break
+            case 'yellow':
+                new Audio(yellowSound).play();
+                break
+            case 'blue':
+                new Audio(blueSound).play();
+                break
+        }
+    }
+
     async function shiningTurn(origMoves:string[]){
         setShine(true);
         let promise = new Promise((resolve, reject) => {
             for (let i = 0; i < origMoves.length; i++) {
                 setTimeout(function timer() {
-                    console.log(i);
-                    console.log(shine);
+                    setTimeout(() => playAudio(origMoves[i]), 500);
                     setTimeout(() => document.getElementById(`${origMoves[i]}`)?.classList.add("opacity-50"), 500);
                     setTimeout(() => {document.getElementById(`${origMoves[i]}`)?.classList.remove("opacity-50")}, 750);
                     setTimeout(() => i + 1 === origMoves.length && resolve(""), 1000);
-                   
                 }, i * 850)
             }
         });
@@ -61,12 +76,14 @@ const Game = () => {
         if(!shine){
         if(id === origMoves[origMoves.length - checked]) {
             console.log("That push was right");
+            playAudio(id);
             checked -= 1;
             if(checked === 0) {
                 setScore(score + 1);
                 startGame();
             }
         } else {
+            new Audio(errorSound).play();
             console.log("You lose");
             stopGame(true);
         }
