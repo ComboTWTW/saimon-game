@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useReducer } from 'react'
 import PlateActive from './PlateActive';
 import PlateInactive from './PlateInactive';
 import Stats from './Stats';
@@ -8,32 +8,61 @@ const Game = () => {
 
     const colors:string[] = ["green","red","yellow","blue"];
 
-    type game = {
-        gameStarted: boolean;
+    enum GameActionKind {
+        toggleGame = 'toggleGame',
+        setScore = 'setScore',
+        setRecord = 'setRecord',
+        pushMoves = 'pushMoves',
+        setShine = 'setShine',
+      }
+
+    interface GameAction {
+        type: string;
+        payload?: any;
     }
 
-    const [game, setGame] = useState<game>({
-        gameStarted: false,
-    });
+    interface GameState {
+        gameStarted: boolean;
+        score: number;
+        record: number;
+        shine: boolean;
+    }
+    
+    const gameReducer = (state: GameState, action: GameAction) => {
+        const { type, payload } = action;
+        switch(type) {
+            case GameActionKind.toggleGame:
+                return {...state, gameStarted: payload};
+            case GameActionKind.setScore:
+                return {...state, score: payload};
+            case GameActionKind.setRecord:
+                return {...state, record: state.score};
+            case GameActionKind.setShine:
+                return {...state, shine: payload};
+            default:
+                return state;
+        };
+    }
 
-    const [score, setScore] = useState<number>(0);
-    const [record, setRecord] = useState<number>(0);
+    const [state, dispatch] = useReducer(gameReducer, { 
+        gameStarted: false,
+        score: 0,
+        record: 0,
+        shine: false,
+    })
+
     const [origMoves, setOrigMoves] = useState<string[]>([]);
-    const [shine, setShine] = useState<boolean>(false);
 
     const startGame = () => {
-        setGame({...game, gameStarted: true});
+        dispatch({type: GameActionKind.toggleGame, payload: true});
         console.log("Game started. Moves: " + origMoves);
-        fillMoves(origMoves);
+        fillMoves();
         console.log("moves were filled: " + origMoves);
         shiningTurn(origMoves);
         
     };
 
-    const fillMoves = (origMoves:string[]) => {
-        origMoves.push(colors[Math.floor(Math.random()*colors.length)]);
-        
-    }
+    const fillMoves = () => origMoves.push(colors[Math.floor(Math.random()*colors.length)]);
 
     const playAudio = (id: string) => {
         switch(id) {
@@ -53,7 +82,7 @@ const Game = () => {
     }
 
     async function shiningTurn(origMoves:string[]){
-        setShine(true);
+        dispatch({type: GameActionKind.setShine, payload: true});
         let promise = new Promise((resolve, reject) => {
             for (let i = 0; i < origMoves.length; i++) {
                 setTimeout(function timer() {
@@ -66,36 +95,36 @@ const Game = () => {
         });
 
         await promise;
-        setShine(false);
-        console.log(shine);
+        dispatch({type: GameActionKind.setShine, payload: false});
+        console.log(state.shine);
         console.log("shining is done");
     }
 
     let checked = origMoves.length;
     const checkingTime = (id:string) => {
-        if(!shine){
-        if(id === origMoves[origMoves.length - checked]) {
-            console.log("That push was right");
-            playAudio(id);
-            checked -= 1;
-            if(checked === 0) {
-                setScore(score + 1);
-                startGame();
+        if(!state.shine){
+            if(id === origMoves[origMoves.length - checked]) {
+                console.log("That push was right");
+                playAudio(id);
+                checked -= 1;
+                if(checked === 0) {
+                    dispatch({type: GameActionKind.setScore, payload: state.score + 1})
+                    startGame();
+                }
+            } else {
+                new Audio(errorSound).play();
+                console.log("You lose");
+                stopGame(true);
             }
-        } else {
-            new Audio(errorSound).play();
-            console.log("You lose");
-            stopGame(true);
         }
-    }
     }
 
     const stopGame = (lose:boolean):void => {
-        setShine(false);
+        dispatch({type: GameActionKind.setShine, payload: false});
         setOrigMoves([]);
-        score > record && setRecord(score);
-        setScore(0);
-        lose ? setTimeout(() => setGame({...game, gameStarted: false}), 250) : setGame({...game, gameStarted: false});
+        state.score > state.record && dispatch({type: GameActionKind.setRecord});
+        dispatch({type: GameActionKind.setScore, payload: 0})
+        lose ? setTimeout(() => dispatch({type: GameActionKind.toggleGame, payload: false}), 250) : dispatch({type: GameActionKind.toggleGame, payload: false});
     }
 
 
@@ -104,14 +133,14 @@ const Game = () => {
         {/* Game Block */}
         <div className="flex min-w-sm flex-col columns-2 gap-12">
             {/* Score and Record Header */}
-            <Stats score={score} record={record}/>
+            <Stats score={state.score} record={state.record}/>
             {/* Game Plate */}
-            {!game.gameStarted 
+            {!state.gameStarted 
             ? <PlateInactive /> 
-            : <PlateActive shine={shine} checkingTime={checkingTime}/>
+            : <PlateActive shine={state.shine} checkingTime={checkingTime}/>
             }
             {/* Start Button */}
-            <button disabled={game.gameStarted} className={`bg-white w-[70%] self-center text-black text-3xl tracking-widest font-semibold py-3 rounded-[10px] active:bg-white active:text-cardDark ${game.gameStarted && `opacity-25 active:bg-white active:text-black focus:outline-none`}`} onClick={game.gameStarted ? () => stopGame(false) : startGame}>
+            <button disabled={state.gameStarted} className={`bg-white w-[70%] self-center text-black text-3xl tracking-widest font-semibold py-3 rounded-[10px] active:bg-white active:text-cardDark ${state.gameStarted && `opacity-25 active:bg-white active:text-black focus:outline-none`}`} onClick={state.gameStarted ? () => stopGame(false) : startGame}>
                 START
             </button>
         </div>
