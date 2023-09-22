@@ -15,6 +15,7 @@ module.exports = {
         "yellowCard": '#f9ed69',
         "blueCard": '#3490de',
         "cardDark": '#24232b',
+
         
       }
     },
